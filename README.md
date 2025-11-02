@@ -13,20 +13,20 @@
 
 ## Objetivo
 
-Este projeto apresenta o cenário de uma empresa fictícia chamada Northwind Trades, em que gerencia as atividades de comercio por meio de sistema ERP. Por meio dos dados disponibilizados o desafio é apresentar um relatório com indicadores de performance para entender os desafios estratégicos da empresa, que incluem em aumentar o ticket médio e reduzir o churn. Para a realização das análises será utilizada a linguagem SQL. Aas análises aqui desenvolvidas podem ser aplicadas em empreasas de de todos os tamanha e que desejam se tronarem mais análiticas. O relatório possibilitara a extração de insights aprtir dos dados para tomada de decisões mais estratégicas.
+Este projeto apresenta o cenário de uma empresa fictícia chamada Northwind Traders, que gerencia as atividades de comércio por meio de sistema ERP. Por meio dos dados disponibilizados, o desafio é apresentar um relatório com indicadores de performance para entender os desafios estratégicos da empresa, que incluem aumentar o ticket médio e reduzir o churn. Para a realização das análises será utilizada a linguagem SQL. As análises aqui desenvolvidas podem ser aplicadas em empresas de todos os tamanhos e que desejam se tornarem mais analíticas. O relatório possibilitará a extração de insights a partir dos dados para tomada de decisões mais estratégicas.
 
 ---
 
 ## Contexto
 
-A Northwind Traders é uma loja fictícia que gerencia pedidos, produtos, clientes, fornecedores e muitos outros aspectos de uma pequena empresa. Hoje a empresa possui cerca de 30 funcionários e um faturamento mensal de 1 milhão e meio de reais. Seus clientes e fornecedores estão distribuídos em diversos países. Seus principais produtos hoje são alimentos, bebidas e utilidades domésticas. A empresa deseja entender melhor seus dados para aumentar o ticket médio e reduzir o churn, dois objetivos considerados estratégicos no médio e longo prazo. O banco de dados do ERP da empresa é um sistema PostgreSQL em um servidor nuvem. Os dados estão disponíveis na pasta data e no arquivo northiwind.sql.
+A Northwind Traders é uma loja fictícia que gerencia pedidos, produtos, clientes, fornecedores e muitos outros aspectos de uma pequena empresa. Hoje a empresa possui cerca de 30 funcionários e um faturamento mensal de 1 milhão e meio de reais. Seus clientes e fornecedores estão distribuídos em diversos países. Seus principais produtos hoje são alimentos, bebidas e utilidades domésticas. A empresa deseja entender melhor seus dados para aumentar o ticket médio e reduzir o churn, dois objetivos considerados estratégicos no médio e longo prazo. O banco de dados do ERP da empresa é um sistema PostgreSQL em um servidor em nuvem. Os dados em csv estão disponíveis na pasta data e no arquivo northwind.sql
 
 ---
 
 ## Tecnologias Utilizadas
 - **Docker**: Plataforma de código aberto para executar aplicações em contêineres.  
 - **Postgres**: Sistema gerenciador de banco de dados relacional de código aberto.
-- **pgAdmin**: Ferramenta para administração e desenvolvimento de banco de dados Postgres
+- **pgAdmin**: Ferramenta para administração e desenvolvimento de banco de dados PostgreSQL
 - **Github**: Repositório online de código.
 - **Git**: Ferramenta de versionamento de código.
 
@@ -134,13 +134,13 @@ LIMIT 10;
 
 ### Utilizando o Docker 
 
-1. Instale o Docker e o Docker compose na sua máquina caso ainda possua. Procure sempre pelo site oficial do docker para obter as imagens oficial do programa.
-2. Crie uma pasta local e clone o repositório do projeto para maquina local.
-3. Abra o repositorio **VSCode** "opcional" e no terminal execute o comando.
+1. Instale o Docker e o Docker Compose na sua máquina caso ainda não possua. Procure sempre pelo site oficial do Docker para obter as imagens oficiais do programa.
+2. Crie uma pasta local e clone o repositório do projeto para máquina local.
+3. Abra o repositório no **VSCode** (opcional) e no terminal execute o comando
 
     ``docker-compose up``
  
-    O **Docker** o irá configurar ambiente e as aplicações e aguarde as mensagens de configuração, como:
+    O **Docker** o irá configurar ambiente e as aplicações. Aguarde as mensagens de configuração, como:
     
     Creating network "northwind_psql_db" with driver "bridge"
     Creating volume "northwind_psql_db" with default driver
@@ -148,11 +148,11 @@ LIMIT 10;
     Creating pgadmin ... done
     Creating db      ... done
     
-4. **Conect-se ao PgAdmin** acessado a URL: http://localhost:5050, com a senha ``postgres``.
+4. **Conect-se ao PgAdmin** acessado em seu navegador a URL: http://localhost:5050, com a senha ``postgres``.
 
-   Configure um novo seridor no PgAdmin.
+   Configure um novo servidor no PgAdmin.
    Clique com botão direito na opção **Servers** depois: **Registre** e em seguida; **Server**
-   Na caixa diálogo preencha os campos das abasconforme segue.
+   Na caixa diálogo preencha os campos das abas conforme segue.
 
    Aba **General**:
 
@@ -167,19 +167,19 @@ LIMIT 10;
          Senha: postgres
 
 5. Em seguida selecione em **Server** o banco de dados **Northwind**.
-6. Após a utilização faça **logout no PgAdmin** e utilize os para para a aplicação e remover os contêineres criados.
+6. Após a utilização faça **logout no PgAdmin** e utilize os códigos a seguir para interromper a aplicação e remover os contêineres criados.
 
         docker compose down
 
-7. O arquivos de dados e as alterações realizadas no banco de dados Postgres serão persistidas no volume Docker``postgres_data`` e poderão ser reaproveitadas reiciando os contêineres por meio do ``docker-compose up``.
+7. O arquivos de dados e as alterações realizadas no banco de dados Postgre serão persistidas no volume Docker``postgres_data`` e poderão ser reaproveitadas reiciando os contêineres por meio do ``docker-compose up``.
 8. Para deletar o banco de dados completo execute:
 
         docker-compose down -v
 
 ### Manualmente
 
-1. Para configurar manualmente, utilize o arquivo [northwin.sql](https://github.com/FredericoSander/NORTHWIND-SQL-ANALYTICS/blob/main/northwind.sql), que irá configurar do banco de dados **Northwind** no PostgreSQL.
-2. Após a configuração do banco de dados utilize as query disponíveis na pasta ``Relatorios`` para visualização das consultas.
+1. Para configurar manualmente, utilize o arquivo [northwin.sql](https://github.com/FredericoSander/NORTHWIND-SQL-ANALYTICS/blob/main/northwind.sql) para configurar do banco de dados **Northwind** no PostgreSQL.
+2. Após a configuração do banco de dados, utilize as query disponíveis na pasta ``Relatorios`` para visualização das consultas.
 
 ---
 
