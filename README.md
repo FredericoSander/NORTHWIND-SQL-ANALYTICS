@@ -6,10 +6,9 @@
 2. [Contexto](#instalação-e-configuração)
 3. [Tecnologias Utilizadas](#arquitetura-do-projeto)
 4. [Questões a serem analisadas](#questões-a-serem-analisadas)
-5. [Query utilizadas](#query-utilizadas)
-6. [Configuração inicial](#configuração-inicial)
-7. [Relatório](#Relatório)
-8. [Autor](#Autor)
+5. [Configuração inicial](#configuração-inicial)
+6. [Relatório](#Relatório)
+7. [Autor](#Autor)
 
 ---
 
@@ -59,7 +58,7 @@ ORDER BY
 SELECT 
     EXTRACT(YEAR FROM order_date) AS ano,
     EXTRACT(MONTH FROM order_date) AS mes,
-	(SUM((od.unit_price * od.quantity)*(1 - od.discount)) / COUNT(*)) AS ticket_medio
+	(SUM((od.unit_price * od.quantity)*(1 - od.discount)) / COUNT(DISTINCT o.order_id)) AS ticket_medio
 FROM orders o
 INNER JOIN order_details od ON od.order_id = o.order_id 
 GROUP BY 
@@ -72,35 +71,19 @@ ORDER BY
 3. Como está a distribuição de pedidos por país ao longo do tempo?
 
 ```sql
-
-
-
-
+SELECT 
+	ship_country,
+	EXTRACT(YEAR FROM order_date) AS ano,
+	EXTRACT(MONTH FROM order_date) AS mes,
+	COUNT(DISTINCT order_id)
+FROM orders
+GROUP BY 
+    EXTRACT(YEAR FROM order_date),
+    EXTRACT(MONTH FROM order_date),
+	ship_country
+ORDER BY 
+   ship_country, ano, mes;
 ```
-
-4. Qual a taxa de crescimento de pedidos por país comparando trimestres?
-
-```sql
-
-
-
-
-
-
-```
-
-5. Quais são os países com maior crescimento no número de pedidos?
-
-```sql
-
-
-
-
-```
-## Query utilizadas
-
-
----
 
 ## Configuração inicial
 
