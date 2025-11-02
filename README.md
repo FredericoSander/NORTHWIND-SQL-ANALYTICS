@@ -1,4 +1,4 @@
-# Análise de dados com SQL do projeto Northwind - Em desenvolvimento
+# Análise de dados com SQL do projeto Northwind
 
 ## Sumário
 
