@@ -7,8 +7,7 @@
 3. [Tecnologias Utilizadas](#arquitetura-do-projeto)
 4. [Questões a serem analisadas](#questões-a-serem-analisadas)
 5. [Configuração inicial](#configuração-inicial)
-6. [Relatório](#Relatório)
-7. [Autor](#Autor)
+6. [Autor](#Autor)
 
 ---
 
@@ -85,6 +84,52 @@ ORDER BY
    ship_country, ano, mes;
 ```
 
+4. Qual foi o valor total concedido em descontos para cada categoria de produto?
+```sql
+SELECT c.category_name,
+	SUM((od.unit_price * od.quantity * od.discount))AS Total_descontos
+FROM categories c
+INNER JOIN products p ON p.category_id = c.category_id
+INNER JOIN order_details od ON od.product_id = p.product_id
+GROUP BY category_name
+ORDER BY Total_descontos;
+```
+5. Crie uma consulta que mostre o tempo médio (em dias) entre a data do pedido e a data de envio, agrupado por transportadora.
+```sql
+SELECT c.company_name,
+	AVG (o.shipped_date - o.order_date) AS avg_delivery_days
+FROM customers c
+INNER JOIN orders o ON o.customer_id = c.customer_id
+WHERE o.shipped_date IS NOT NULL
+GROUP BY c.company_name
+ORDER BY avg_delivery_days;
+```
+
+6. Quais clientes não realizaram compras nos últimos 6 meses (potencial churn)?
+
+```sql
+SELECT c.company_name, o.customer_id
+FROM customers c
+LEFT JOIN orders o ON o.customer_id = c.customer_id
+	AND o.order_date BETWEEN '1997-12-06' AND '1998-05-06'
+WHERE o.order_id IS NULL;
+```
+
+7. Quais são os 10 clientes com maior valor total de compras (TOP 10 Total Sales)?
+
+```sql
+SELECT c.company_name,
+	SUM((od.unit_price * od.quantity)*(1 - od.discount))AS Total_vendas
+FROM customers c
+INNER JOIN orders o ON o.customer_id = c.customer_id
+INNER JOIN order_details od ON od.order_id = o.order_id
+GROUP BY c.company_name
+ORDER BY Total_vendas DESC 
+LIMIT 10;
+```
+
+---
+
 ## Configuração inicial
 
 ### Utilizando o Docker 
@@ -135,12 +180,6 @@ ORDER BY
 
 1. Para configurar manualmente, utilize o arquivo [northwin.sql](https://github.com/FredericoSander/NORTHWIND-SQL-ANALYTICS/blob/main/northwind.sql), que irá configurar do banco de dados **Northwind** no PostgreSQL.
 2. Após a configuração do banco de dados utilize as query disponíveis na pasta ``Relatorios`` para visualização das consultas.
-
----
-
-## Relatório
-
-Acesse ao relatório completo por meio do Link [Relatório em PDF](). Em elaboração
 
 ---
 
