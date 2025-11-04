@@ -36,7 +36,22 @@ A Northwind Traders é uma loja fictícia que gerencia pedidos, produtos, client
 
 #### Sales Report
 
-1. Qual a quantidade de pedidos por mês/ano no período?
+1. Qual o valor total de vendas por mês/ano do período?
+```sql
+SELECT 
+	EXTRACT(YEAR FROM order_date) AS ano,
+	EXTRACT(MONTH FROM order_date) AS mes,
+	SUM((od.unit_price * od.quantity)*(1 - od.discount)) AS vendas_totais
+FROM orders o
+INNER JOIN order_details od ON od.order_id = o.order_id
+GROUP BY
+	EXTRACT(YEAR FROM order_date),
+	EXTRACT(MONTH FROM order_date)
+ORDER BY
+	ano, mes;
+```
+
+2. Qual a quantidade de pedidos por mês/ano no período?
 
 ```sql
 SELECT 
@@ -51,7 +66,7 @@ ORDER BY
     ano, mes;
 ```
 
-2. Qual foi a evolução do ticket médio (valor médio dos pedidos) por mês/ano?
+3. Qual foi a evolução do ticket médio (valor médio dos pedidos) por mês/ano?
 
 ```sql
 SELECT 
@@ -67,7 +82,7 @@ ORDER BY
     ano, mes;
 ```
 
-3. Como está a distribuição de pedidos por país ao longo do tempo?
+4. Como está a distribuição de pedidos por país ao longo do tempo?
 
 ```sql
 SELECT 
@@ -84,7 +99,7 @@ ORDER BY
    ship_country, ano, mes;
 ```
 
-4. Qual foi o valor total concedido em descontos para cada categoria de produto?
+5. Qual foi o valor total concedido em descontos para cada categoria de produto?
 ```sql
 SELECT c.category_name,
 	SUM((od.unit_price * od.quantity * od.discount))AS Total_descontos
@@ -94,7 +109,7 @@ INNER JOIN order_details od ON od.product_id = p.product_id
 GROUP BY category_name
 ORDER BY Total_descontos;
 ```
-5. Crie uma consulta que mostre o tempo médio (em dias) entre a data do pedido e a data de envio, agrupado por transportadora.
+6. Crie uma consulta que mostre o tempo médio (em dias) entre a data do pedido e a data de envio, agrupado por transportadora.
 ```sql
 SELECT c.company_name,
 	AVG (o.shipped_date - o.order_date) AS avg_delivery_days
@@ -105,7 +120,7 @@ GROUP BY c.company_name
 ORDER BY avg_delivery_days;
 ```
 
-6. Quais clientes não realizaram compras nos últimos 6 meses (potencial churn)?
+7. Quais clientes não realizaram compras nos últimos 6 meses (potencial churn)?
 
 ```sql
 SELECT c.company_name, o.customer_id
@@ -115,7 +130,7 @@ LEFT JOIN orders o ON o.customer_id = c.customer_id
 WHERE o.order_id IS NULL;
 ```
 
-7. Quais são os 10 clientes com maior valor total de compras (TOP 10 Total Sales)?
+8. Quais são os 10 clientes com maior valor total de compras (TOP 10 Total Sales)?
 
 ```sql
 SELECT c.company_name,
@@ -126,6 +141,33 @@ INNER JOIN order_details od ON od.order_id = o.order_id
 GROUP BY c.company_name
 ORDER BY Total_vendas DESC 
 LIMIT 10;
+```
+
+9. Qual foi o número de pedidos, quantidades de produtos e o valor total de receita gerada por cada categoria de produto por mes e ano?
+
+```sql
+SELECT 
+	TO_CHAR(o.order_date, 'MM/YYYY') AS mes_ano,
+	EXTRACT(YEAR FROM order_date) AS ano,
+	EXTRACT(MONTH FROM order_date) AS mes,
+	c.category_name,
+	SUM((od.unit_price * od.quantity)*(1 - od.discount)) AS valor_total,
+	COUNT(DISTINCT o.order_id) AS quant_pedidos,
+	COUNT(p.product_id) AS quant_produtos
+FROM 
+	categories c
+	INNER JOIN products p ON c.category_id = p.category_id
+	INNER JOIN order_details od ON od.product_id = p.product_id
+	INNER JOIN orders o ON o.order_id = od.order_id
+GROUP BY
+	TO_CHAR(o.order_date, 'MM/YYYY'),
+	EXTRACT(YEAR FROM order_date),
+	EXTRACT(MONTH FROM order_date),
+	c.category_name
+ORDER BY 
+	 c.category_name,
+	 ano,
+	 mes;
 ```
 
 ---
